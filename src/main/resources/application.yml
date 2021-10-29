@@ -1,0 +1,16 @@
+spring:
+  application:
+    name: library-api
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+  jmx:
+    enabled: false
+  datasource:
+    url: jdbc:h2:mem:library
+    username: sa
+    password: password
