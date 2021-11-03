@@ -60,10 +60,6 @@ public class BookServiceTest {
         assertThat(saveBook.getTitle()).isEqualTo("As aventuras");
     }
 
-    private Book createValidBook() {
-        return Book.builder().isbn("123").author("fulano").title("As aventuras").build();
-    }
-
     @Test
     @DisplayName("Deve lançar erro de negócio ao tentar salvar um livro com Isbn duplicado")
     public void shoulNotSaveBookWithDuplicatedISBN(){
@@ -80,5 +76,9 @@ public class BookServiceTest {
                 .hasMessage("Isbn já cadastrado");
 
         Mockito.verify(repository, Mockito.never()).save(book);
+    }
+
+    private Book createValidBook() {
+        return Book.builder().isbn("123").author("fulano").title("As aventuras").build();
     }
 }
