@@ -1,8 +1,8 @@
 package com.gustavowendel.libraryapi.model.repository;
 
+import com.gustavowendel.libraryapi.api.dto.BookDTO;
 import com.gustavowendel.libraryapi.model.entity.Book;
 import com.gustavowendel.libraryapi.model.entity.repository.BookRepository;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -12,7 +12,9 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.assertj.core.api.Assertions.*;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
@@ -52,4 +54,23 @@ public class BookRepositoryTest {
         assertThat(exists).isFalse();
     }
 
+    @Test
+    @DisplayName("Deve obter um livro por id")
+    public void findByIdTest(){
+        //Cenário
+        Book book = createNewBook("123");
+        entityManager.persist(book);
+
+        //Execução
+        Optional<Book> foundBook = repository.findById(book.getId());
+
+        //Verificações
+        assertThat(foundBook).isPresent();
+    }
+
+
+
+    public Book createNewBook(String isbn){
+        return Book.builder().title("Aventuras").author("Fulano").isbn(isbn).build();
+    }
 }
