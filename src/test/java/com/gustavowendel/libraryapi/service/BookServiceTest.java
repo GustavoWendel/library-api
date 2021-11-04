@@ -5,6 +5,7 @@ import com.gustavowendel.libraryapi.exception.BusinessException;
 import com.gustavowendel.libraryapi.model.entity.Book;
 import com.gustavowendel.libraryapi.model.entity.repository.BookRepository;
 import com.gustavowendel.libraryapi.service.impl.BookServiceImpl;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -113,6 +114,37 @@ public class BookServiceTest {
 
         //Verificações
         assertThat(foundBook.isPresent()).isFalse();
+    }
+
+
+    @Test
+    @DisplayName("Deve deletar um livro")
+    public void deleteBookTest() {
+        //Cenário
+        Book book = Book.builder().id(1L).isbn("123").author("fulano").title("As aventuras").build();
+
+        //Execução
+        service.delete(book);
+
+        //Verificações
+        Mockito.verify(repository, Mockito.times(1)).delete(book);
+    }
+
+    @Test
+    @DisplayName("Deve ocorrer erro ao tentar deletar um livro inexistente.")
+    public void deleteNotFoundBookTest() {
+        //Cenário
+        Book book = new Book();
+        //Execução
+        Assertions.assertThrows(IllegalArgumentException.class, () ->  service.delete(book));
+        //Vericação
+        Mockito.verify(repository, Mockito.never()).delete(book);
+    }
+
+    @Test
+    @DisplayName("Deve atualizar um livro por id")
+    public void shouldUpdateBookTest() {
+
     }
 
     private Book createValidBook() {
