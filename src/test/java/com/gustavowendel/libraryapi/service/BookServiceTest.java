@@ -132,7 +132,7 @@ public class BookServiceTest {
 
     @Test
     @DisplayName("Deve ocorrer erro ao tentar deletar um livro inexistente.")
-    public void deleteNotFoundBookTest() {
+    public void deleteInvalidBookTest() {
         //Cenário
         Book book = new Book();
         //Execução
@@ -142,9 +142,40 @@ public class BookServiceTest {
     }
 
     @Test
-    @DisplayName("Deve atualizar um livro por id")
-    public void shouldUpdateBookTest() {
+    @DisplayName("Deve atualizar um livro ")
+    public void updateBookTest() {
+        //Cenário
+        long id = 1L;
 
+        //livro a atualizar
+        Book updatingBook = Book.builder().id(id).build();
+
+        //Simulação
+        Book bookUpdated = createValidBook();
+        bookUpdated.setId(id);
+
+        Mockito.when(repository.save(updatingBook)).thenReturn(bookUpdated);
+
+        //Execução
+        Book book = service.update(updatingBook);
+
+        //Verificações
+        assertThat(book.getId()).isEqualTo(bookUpdated.getId());
+        assertThat(book.getTitle()).isEqualTo(bookUpdated.getTitle());
+        assertThat(book.getIsbn()).isEqualTo(bookUpdated.getIsbn());
+        assertThat(book.getAuthor()).isEqualTo(bookUpdated.getAuthor());
+
+    }
+
+    @Test
+    @DisplayName("Deve ocorrer erro ao tentar atualizar um livro inexistente.")
+    public void updateInvalidBookTest() {
+        //Cenário
+        Book book = new Book();
+        //Execução
+        Assertions.assertThrows(IllegalArgumentException.class, () ->  service.update(book));
+        //Vericação
+        Mockito.verify(repository, Mockito.never()).save(book);
     }
 
     private Book createValidBook() {
