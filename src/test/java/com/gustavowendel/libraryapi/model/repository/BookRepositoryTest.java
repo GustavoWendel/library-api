@@ -1,6 +1,5 @@
 package com.gustavowendel.libraryapi.model.repository;
 
-import com.gustavowendel.libraryapi.api.dto.BookDTO;
 import com.gustavowendel.libraryapi.model.entity.Book;
 import com.gustavowendel.libraryapi.model.entity.repository.BookRepository;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +28,7 @@ public class BookRepositoryTest {
 
     @Test
     @DisplayName("Deve retornar verdadeiro quando existir um livro na base com o isbn informado.")
-    public void returnTrueWhenIsbnExists(){
+    public void returnTrueWhenIsbnExists() {
         //Cenário
         String isbn = "123";
         Book book = Book.builder().title("Aventuras").author("Jefferson").isbn(isbn).build();
@@ -43,7 +42,7 @@ public class BookRepositoryTest {
     }
     @Test
     @DisplayName("Deve retornar falso quando não existir um livro na base com o isbn informado.")
-    public void returnFalseWhenIsbnDoesntExists(){
+    public void returnFalseWhenIsbnDoesntExists() {
         //Cenário
         String isbn = "123";
 
@@ -56,7 +55,7 @@ public class BookRepositoryTest {
 
     @Test
     @DisplayName("Deve obter um livro por id")
-    public void findByIdTest(){
+    public void findByIdTest() {
         //Cenário
         Book book = createNewBook("123");
         entityManager.persist(book);
@@ -68,9 +67,31 @@ public class BookRepositoryTest {
         assertThat(foundBook).isPresent();
     }
 
+    @Test
+    @DisplayName("Deve salvar um livro")
+    public void saveBookTest() {
+        Book book = createNewBook("123");
 
+        Book savedBook = repository.save(book);
 
-    public Book createNewBook(String isbn){
+        assertThat(savedBook.getId()).isNotNull();
+    }
+
+    @Test
+    @DisplayName("Deve deletar um livro")
+    public void deleteBookTest() {
+        Book book = createNewBook("123");
+        entityManager.persist(book);
+
+        Book foundBook = entityManager.find(Book.class, book.getId());
+
+        repository.delete(foundBook);
+
+        Book deleteBook = entityManager.find(Book.class, book.getId());
+        assertThat(deleteBook).isNull();
+    }
+
+    public Book createNewBook(String isbn) {
         return Book.builder().title("Aventuras").author("Fulano").isbn(isbn).build();
     }
 }
