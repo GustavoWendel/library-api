@@ -1,6 +1,5 @@
 package com.gustavowendel.libraryapi.service.impl;
 
-
 import com.gustavowendel.libraryapi.exception.BusinessException;
 import com.gustavowendel.libraryapi.model.entity.Book;
 import com.gustavowendel.libraryapi.model.entity.repository.BookRepository;
@@ -59,6 +58,12 @@ public class BookServiceImpl implements BookService {
                 .withIgnoreNullValues()
                 .withStringMatcher(ExampleMatcher.StringMatcher.CONTAINING)
         );
+
         return repository.findAll(example, pageableRequest);
+    }
+
+    @Override
+    public Optional<Book> getBookByIsbn(String isbn) {
+        return null;
     }
 }
