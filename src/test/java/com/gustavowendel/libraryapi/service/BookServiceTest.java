@@ -14,7 +14,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.*;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Collections;
 import java.util.List;
@@ -29,11 +28,7 @@ import static org.mockito.Mockito.*;
 @ActiveProfiles("test")
 public class BookServiceTest {
 
-    static String BOOK_API = "/api/books";
-
     BookService service;
-
-    MockMvc mvc;
 
     @MockBean
     BookRepository repository;
