@@ -1,8 +1,6 @@
 package com.gustavowendel.libraryapi.api.resource;
 
 import com.gustavowendel.libraryapi.api.dto.BookDTO;
-import com.gustavowendel.libraryapi.api.exception.ApiErros;
-import com.gustavowendel.libraryapi.exception.BusinessException;
 import com.gustavowendel.libraryapi.model.entity.Book;
 import com.gustavowendel.libraryapi.service.BookService;
 import org.modelmapper.ModelMapper;
@@ -10,8 +8,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 

@@ -40,6 +40,7 @@ public class BookRepositoryTest {
         //Verificação
         assertThat(exists).isTrue();
     }
+
     @Test
     @DisplayName("Deve retornar falso quando não existir um livro na base com o isbn informado.")
     public void returnFalseWhenIsbnDoesntExists() {
