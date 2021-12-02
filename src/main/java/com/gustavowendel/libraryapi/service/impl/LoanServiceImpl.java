@@ -1,5 +1,6 @@
 package com.gustavowendel.libraryapi.service.impl;
 
+import com.gustavowendel.libraryapi.exception.BusinessException;
 import com.gustavowendel.libraryapi.model.entity.Loan;
 import com.gustavowendel.libraryapi.model.entity.repository.LoanRepository;
 import com.gustavowendel.libraryapi.service.LoanService;
@@ -16,6 +17,9 @@ public class LoanServiceImpl implements LoanService {
 
     @Override
     public Loan save(Loan loan) {
+        if(repository.existsByBookAndNotReturned(loan.getBook())){
+            throw new BusinessException("Book already loaned");
+        }
         return repository.save(loan);
     }
 }
